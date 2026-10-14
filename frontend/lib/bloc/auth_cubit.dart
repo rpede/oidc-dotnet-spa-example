@@ -6,7 +6,7 @@ final class AuthState {
   bool isAuthenticated;
   String? name;
 
-  new({required this.isAuthenticated, this.name});
+  AuthState({required this.isAuthenticated, this.name});
 }
 
 class AuthCubit extends Cubit<AuthState> {

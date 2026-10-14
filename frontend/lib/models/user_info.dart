@@ -4,7 +4,7 @@ final class UserInfo {
   final String? emailAddress;
   final Map<String, String>? addtionalClaims;
 
-  new({
+  UserInfo({
     required this.isAuthenticated,
     required this.name,
     required this.emailAddress,

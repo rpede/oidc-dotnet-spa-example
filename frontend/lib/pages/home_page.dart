@@ -6,7 +6,7 @@ import '../bloc/auth_cubit.dart';
 
 class HomePage extends StatelessWidget {
   static final String path = "/";
-  const new({super.key});
+  const HomePage({super.key});
 
   void _onRolePressed(BuildContext context, String role) async {
     final response = await http.get(Uri.parse('/api/resource/$role'));

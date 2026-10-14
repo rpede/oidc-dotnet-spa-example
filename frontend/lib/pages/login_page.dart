@@ -7,7 +7,7 @@ import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
   static final String path = "/login";
-  const new({super.key});
+  const LoginPage({super.key});
 
   void _onLogin(BuildContext context) {
     context.read<AuthCubit>().login();
