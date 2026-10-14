@@ -1,0 +1,15 @@
+services:
+  keycloak:
+    ports:
+      - 127.0.0.1:8080:8080
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      # Substituted into realm JSON as ${CLIENT_SECRET} / ${CLIENT_ID}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      REDIRECT_URI: ${REDIRECT_URI}
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import
+    image: quay.io/keycloak/keycloak:26.8
+    command: start-dev --import-realm

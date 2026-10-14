@@ -1,0 +1,167 @@
+{
+  "realm": "vulntrack",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Basic realm-level user role"
+      }
+    ],
+    "client": {
+      "${CLIENT_ID}": [
+        {
+          "name": "analyst",
+          "description": "Can view, create, update findings, and assign findings; cannot manage users, approve public disclosures",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "developer",
+          "description": "Can view, update status and details on findings, cannot manage users, approve public disclosures",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "pm",
+          "description": "Everything an Analyst can do, plus: set SLA targets, manage user roles",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "auditor",
+          "description": "Read-only access to all findings, reports, and audit logs; cannot modify anything",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "external-reporter",
+          "description": "Can submit a new finding via a public disclosure form; cannot view anything",
+          "composite": false,
+          "clientRole": true
+        }
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "analyst",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "analyst@example.local",
+      "firstName": "Alice",
+      "lastName": "Smith",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeme",
+          "temporary": true
+        }
+      ],
+      "clientRoles": {
+        "${CLIENT_ID}": [
+          "analyst"
+        ]
+      }
+    },
+    {
+      "username": "developer",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "developer@example.local",
+      "firstName": "Dave",
+      "lastName": "Donovan",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeme",
+          "temporary": true
+        }
+      ],
+      "clientRoles": {
+        "${CLIENT_ID}": [
+          "developer"
+        ]
+      }
+    },
+    {
+      "username": "pm",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "pm@example.local",
+      "firstName": "Poul",
+      "lastName": "Moritzen",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeme",
+          "temporary": true
+        }
+      ],
+      "clientRoles": {
+        "${CLIENT_ID}": [
+          "pm"
+        ]
+      }
+    },
+    {
+      "username": "auditor",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "auditor@example.local",
+      "firstName": "Austin",
+      "lastName": "Peterson",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeme",
+          "temporary": true
+        }
+      ],
+      "clientRoles": {
+        "${CLIENT_ID}": [
+          "auditor"
+        ]
+      }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "${CLIENT_ID}",
+      "name": "VulnTrack",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${CLIENT_SECRET}",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "redirectUris": [
+        "${REDIRECT_URI}"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "protocolMappers": [
+        {
+          "name": "user-client-role-mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": true,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "VulnTrack"
+          }
+        }
+      ]
+    }
+  ]
+}
