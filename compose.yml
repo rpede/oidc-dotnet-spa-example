@@ -1,15 +1,20 @@
+include:
+  - keycloak.yml
 services:
-  keycloak:
+  frontend:
+    build: frontend/
+    depends_on:
+      - backend
     ports:
-      - 127.0.0.1:8080:8080
+      - "1234:1234"
+      - "2019:2019"
+
+  backend:
+    build: backend/
+    depends_on:
+      - keycloak
+    ports:
+      - "5109:5109"
+      - "7156:7156"
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      # Substituted into realm JSON as ${CLIENT_SECRET} / ${CLIENT_ID}
-      CLIENT_ID: ${CLIENT_ID}
-      CLIENT_SECRET: ${CLIENT_SECRET}
-      REDIRECT_URI: ${REDIRECT_URI}
-    volumes:
-      - ./keycloak/realm:/opt/keycloak/data/import
-    image: quay.io/keycloak/keycloak:26.8
-    command: start-dev --import-realm
+      - OpenIDConnectSettings__ClientSecret=${CLIENT_SECRET}
