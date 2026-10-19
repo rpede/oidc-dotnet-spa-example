@@ -9,6 +9,8 @@
 - [Flutter SDK](https://docs.flutter.dev/install/quick).
 - [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
+For a full docker setup, checkout `dockerize` branch.
+
 ## Setup
 
 ```sh
