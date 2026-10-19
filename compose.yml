@@ -6,15 +6,17 @@ services:
     depends_on:
       - backend
     ports:
-      - "1234:1234"
-      - "2019:2019"
+      - "80:80"
+      # - "1234:1234"
 
   backend:
-    build: backend/
-    depends_on:
-      - keycloak
-    ports:
-      - "5109:5109"
-      - "7156:7156"
-    environment:
-      - OpenIDConnectSettings__ClientSecret=${CLIENT_SECRET}
+     build: backend/
+     depends_on:
+       - keycloak
+     ports:
+       - "5109:5109"
+       - "7156:7156"
+     environment:
+       - "OpenIDConnectSettings__ClientSecret=${CLIENT_SECRET}"
+       - "OpenIDConnectSettings__Authority=http://keycloak:8080/realms/vulntrack"
+       - "OpenIDConnectSettings__Frontend=http://localhost"

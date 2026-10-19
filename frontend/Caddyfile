@@ -1,11 +1,27 @@
-:1234 {
+:80 {
     handle /api/* {
         uri strip_prefix /api
-        reverse_proxy localhost:5109
+        reverse_proxy backend:5109 {
+            # Explicitly pass the original request headers (Cookie is included by default)
+            header_up Host {host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto https
+
+            # Make backend cookies valid for the /api prefix the browser sees
+            header_down Set-Cookie "(?i)(Path=)/" "$1/api/"
+        }
     }
 
     handle /Auth/* {
-        reverse_proxy localhost:5109
+        reverse_proxy backend:5109 {
+            # Explicitly pass the original request headers (Cookie is included by default)
+            header_up Host {host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto https
+
+            # Make backend cookies valid for the /api prefix the browser sees
+            header_down Set-Cookie "(?i)(Path=)/" "$1/"
+        }
     }
 
     handle {

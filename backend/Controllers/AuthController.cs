@@ -15,11 +15,13 @@ public class AuthController : ControllerBase
     [HttpGet("Login")]
     public async Task Login([FromServices] IConfiguration config)
     {
+        var oidcConfig = config.GetSection("OpenIDConnectSettings");
+        var redirectUri = $"{oidcConfig["Frontend"]}{oidcConfig["CallbackPath"]}";
         await HttpContext.ChallengeAsync(
           OpenIdConnectDefaults.AuthenticationScheme,
           new AuthenticationProperties
           {
-              RedirectUri = config.GetSection("OpenIDConnectSettings")["Frontend"]
+              RedirectUri = redirectUri
           });
     }
 

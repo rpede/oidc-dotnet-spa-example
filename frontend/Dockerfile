@@ -15,4 +15,4 @@ COPY Caddyfile /etc/caddy/Caddyfile
 COPY --from=build /app/build/web /srv
 
 EXPOSE 2019
-EXPOSE 1234
+EXPOSE 80

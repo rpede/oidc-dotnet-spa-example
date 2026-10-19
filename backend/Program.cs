@@ -32,7 +32,7 @@ builder.Services.AddAuthentication(options =>
         options.ClientId = oidcConfig["ClientId"];
         options.ClientSecret = oidcConfig["ClientSecret"];
         options.RequireHttpsMetadata = false;
-        options.CallbackPath = "/Auth/Callback";
+        options.CallbackPath = oidcConfig["CallbackPath"];
 
         options.Scope.Clear();
         options.Scope.Add("openid");
@@ -71,7 +71,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowKeycloak", policy =>
     {
-        policy.WithOrigins("http://localhost:8080")
+        policy.WithOrigins("http://keycloak:8080")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
